@@ -1,3 +1,5 @@
-- Write the commcon module to facilitate extensible plugins for client program to communicate with command & control server based on the users' group's requirement and parse instructions from it.
-- Write utility modules for tasks such as comparing the 'before' and 'after' screenshots and analyze the performance of auto-pixel-canvas client.
+- Write the commcon module to facilitate extensible plugins for client program to communicate with 
+  command & control server based on the users' group's requirement and parse instructions from it.
+- Write utility modules for tasks such as comparing the 'before' and 'after' screenshots and 
+  analyze the performance of auto-pixel-canvas client.
 - Write mechanisms to automatically send error reports to the server
