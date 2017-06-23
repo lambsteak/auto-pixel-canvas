@@ -1,9 +1,7 @@
 '''
-Created on 19-Jun-2017
-
-@author: thepenguin
+email: free.fries@yandex.com
+github: https://github.com/lambsteak/auto-pixel-canvas
 '''
-
 import pyautogui
 from PIL import Image
 import threading
@@ -779,10 +777,8 @@ while True:
         no_pixels_handler()
     else:
         no_pixels_count=0
-    #click_count+=1
-    #if click_count>(4+random.randint(0,5)):
+    
     logging.debug('sleeping for freeze time = %d seconds'%freeze_time)
     time.sleep(freeze_time)
-        #click_count=0
         
     
