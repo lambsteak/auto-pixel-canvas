@@ -56,6 +56,45 @@ class Colors(object):
                 }
         self.color_meanings=self._get_color_meanings()
     
+    def build_colors_list(target_color, exception_colors):
+        pixel_range=20
+        target_set=list()
+        print("target_color:",target_color)
+        print("type: ",type(target_color))
+        r=target_color[0]
+        g=target_color[1]
+        b=target_color[2]
+        
+        i=b-pixel_range
+        while i<(b+pixel_range):
+            j=g-pixel_range
+            while j<(g+pixel_range):
+                k=r-pixel_range
+                while k<(r+pixel_range):
+                    target_set.append((k,j,i))
+                    k+=1
+                j+=1
+            i+=1
+        
+        q=0
+        exception_set=list()
+        while q<len(exception_colors):
+            r=exception_colors[q][0]
+            g=exception_colors[q][1]
+            b=exception_colors[q][2]
+            
+            i=b-pixel_range
+            while i<(b+pixel_range):
+                j=g-pixel_range
+                while j<(g+pixel_range):
+                    k=r-pixel_range
+                    while k<(r+pixel_range):
+                        exception_set.append((k,j,i))
+                        k+=1
+                    j+=1
+                i+=1
+            q+=1
+        return (target_set, exception_set)
 
 
 def pause():
@@ -155,87 +194,7 @@ def pause():
             logging.info('pause thread: calling sys.exit()')
             sys.exit()
 
-'''
-def build_colors_list(target_color, exception_colors):
-    pixel_range=20
-    target_colors=list()
-    c=-pixel_range
-    r=target_color[0]
-    g=target_color[1]
-    b=target_color[2]
-    l=[r,g,b]
-    cols=0
-    while cols<3:
-        c=0
-        x=l[cols]
-        while c<pixel_range:
-            x+=c
-            pix=(l[0],l[1],l[2])
-            target_colors.append(pix)
-            c+=1
-        cols+=1
-        
-    exceptions_set=list()
-    for color in exception_colors:
-        c=-pixel_range
-        r=color[0]
-        g=color[1]
-        b=color[2]
-        l=[r,g,b]
-        cols=0
-        while cols<3:
-            c=0
-            x=l[cols]
-            while c<pixel_range:
-                x+=c
-                pix=(l[0],l[1],l[2])
-                exceptions_set.append(pix)
-                c+=1
-            cols+=1
-            
-    return target_colors, exceptions_set
-    '''
-'''
-def build_colors_list(target_color, exception_colors):
-    pixel_range=20
-    target_set=list()
-    print("target_color:",target_color)
-    print("type: ",type(target_color))
-    r=target_color[0]
-    g=target_color[1]
-    b=target_color[2]
-    
-    i=b-pixel_range
-    while i<(b+pixel_range):
-        j=g-pixel_range
-        while j<(g+pixel_range):
-            k=r-pixel_range
-            while k<(r+pixel_range):
-                target_set.append((k,j,i))
-                k+=1
-            j+=1
-        i+=1
-    
-    q=0
-    exception_set=list()
-    while q<len(exception_colors):
-        r=exception_colors[q][0]
-        g=exception_colors[q][1]
-        b=exception_colors[q][2]
-        
-        i=b-pixel_range
-        while i<(b+pixel_range):
-            j=g-pixel_range
-            while j<(g+pixel_range):
-                k=r-pixel_range
-                while k<(r+pixel_range):
-                    exception_set.append((k,j,i))
-                    k+=1
-                j+=1
-            i+=1
-        q+=1
-    return (target_set, exception_set)
-'''
+
 
 def clickable_colors(color_tuple):
     logging.debug('clickable_colors() called')
