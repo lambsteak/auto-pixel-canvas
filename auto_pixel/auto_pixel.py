@@ -184,7 +184,7 @@ def pause():
             logging.info("pause thread: user selected 'quit' *after pausing*")
             dbfile=open('configure','rb')
             db=pickle.load(dbfile)
-            logging.log("Initial status: %s"%db['pause'])
+            logging.debug("Initial status: %s"%db['pause'])
             dbfile.close()
             db['pause']='QUIT'
             dbfile=open('configure','wb')
@@ -737,7 +737,8 @@ while True:
     else:
         no_pixels_count=0
     
-    logging.debug('sleeping for freeze time = %d seconds'%freeze_time)
-    time.sleep(freeze_time)
+    if freeze_time>20:
+    logging.debug('sleeping for freeze time = %d seconds'%freeze_time-20)
+    time.sleep(freeze_time-20)
         
     
