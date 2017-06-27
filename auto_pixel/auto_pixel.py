@@ -738,7 +738,9 @@ while True:
         no_pixels_count=0
     
     if freeze_time>20:
-    logging.debug('sleeping for freeze time = %d seconds'%freeze_time-20)
-    time.sleep(freeze_time-20)
-        
+        logging.debug('sleeping for freeze time = %d seconds'%freeze_time-20)
+        time.sleep(freeze_time-20)
+    else:
+        logging.debug('sleeping for freeze time = %d seconds'%freeze_time)
+        time.sleep(freeze_time)
     

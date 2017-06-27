@@ -1,4 +1,5 @@
 # auto-pixel-canvas
+### Automatically supply intelligent clicks to targeted kinds of pixel blocks in a dynamic HTML5 canvas element.
 It is inspired by the specific requirements for http://pixelcanvas.io/ and has been tested to work well on that canvas.
 
 ### What it does:
