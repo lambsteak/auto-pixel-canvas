@@ -16,10 +16,10 @@ import os
 import sys
 import random
 import pickle
-import commcon
+# from commcon import Commcon
 import datetime
-
-
+from string import ascii_letters
+from random import choice
 logging.basicConfig(filename='notebook.logs.notebook',level=logging.DEBUG,
                     filemode='w', format='%(asctime)s %(message)s',
                     datefmt='%m/%d %I:%M:%S %p')
@@ -31,6 +31,22 @@ pixel_range to 50 or the third way is to find all possible colors in the canvas
 and remove the target and exception colors from the clickables list.
 '''
 
+'''
+if not os.path.isfile('credentials.txt'):
+    cfile = open('credentials.txt', 'w')
+    cfile.write(input('Enter a username: ')+'\n')
+    cfile.write(input('Enter a password: ')+'\n')
+    cfile.write(''.join(choice(ascii_letters) for i in range(30)))
+    cfile.close()
+
+cfile = open('credentials.txt', 'r')
+creds = cfile.readlines()
+username = creds[0].strip()
+password = creds[1].strip()
+user_token = creds[2].strip()
+cfile.close()
+commcon = Commcon(username, password, user_token)
+'''
 
 class Colors(object):
     def _get_color_meanings(self):
@@ -525,7 +541,7 @@ captcha_sent=False
 #loop_count=0
 logging.info('Entering the infinite main logic loop')
 loop_cycle=0
-#per_shot=commcon.get_cycles_per_shot()             #####
+# per_shot = commcon.get_cycles_per_shot()             #####
 per_shot=20
 logging.info('no. of loop cycles per screenshot is set at %d'%per_shot)
 while True:
@@ -588,8 +604,9 @@ while True:
             if captcha_fail>3 and not captcha_sent:
                 logging.info('Sending captcha to C&C, captcha_fail = %d'%captcha_fail)
                 parted_scrn=scrn.crop((window_edge,0,width,height))
+                parted_scrn.save('tmp_parted.png')
                 #send captcha to other humans to solve it
-                #commcon.send_to_cc(parted_scrn, categ='captcha')       ####
+                # commcon.send_to_cc('tmp_parted.png', categ='captcha')       ####
                 #the above function will return after dealing with the captcha
                 #so no need to sleep etc
                 #captcha_sent=True
@@ -598,8 +615,6 @@ while True:
             elif captcha_fail>2:
                 logging.debug('captcha_fail = %d, user being informed of captcha'%captcha_fail)
                 print('CAPTCHA verification appeared')
-                #show dialof=g box
-                #captcha_fail=0
                 time.sleep(60)
                 captcha_fail+=1
                 continue
@@ -721,7 +736,7 @@ while True:
         shh.write(im_content)
         shh.close()
         '''
-    if xybreak==False:
+    if xybreak == False:
         logging.debug('exited xy loop with xybreak flag as False (no pixel clicked(?))')
         pyautogui.press('Enter')
         nopix_scn=pyautogui.screenshot()
@@ -733,7 +748,7 @@ while True:
         sff.save(fname)
         #the dev will send a multidimensional array instructing coords
         #and keypresses at specific coords
-        #commcon.send_to_dev(nopix_scn, categ='no_pixels_scrn')             ######
+        # commcon.send_to_dev(nopix_scn, categ='no_pixels_scrn')             ######
         print('***NO PIXELS TO COLOR')
         logging.info("No pixels found to color")
         no_pixels_handler()
@@ -741,8 +756,8 @@ while True:
         no_pixels_count=0
 
     if freeze_time>20:
-        logging.debug('sleeping for freeze time = %d seconds'%freeze_time-20)
+        logging.debug('sleeping for freeze time = %d seconds' % (freeze_time-20))
         time.sleep(freeze_time-20)
     else:
-        logging.debug('sleeping for freeze time = %d seconds'%freeze_time)
+        logging.debug('sleeping for freeze time = %d seconds' % (freeze_time))
         time.sleep(freeze_time)
