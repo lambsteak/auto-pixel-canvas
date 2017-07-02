@@ -1,7 +1,12 @@
 '''
-email: free.fries@yandex.com
-github: https://github.com/lambsteak/auto-pixel-canvas
+Launch point for the application.
+This is a very poorly formatted piece of code and a bit unreadable but
+it was mostly meant to be a one-off script, serving just one task.
+------
+Email: free.fries@yandex.com
+Github: https://github.com/lambsteak/auto-pixel-canvas
 '''
+
 import pyautogui
 from PIL import Image
 import threading
@@ -11,25 +16,23 @@ import os
 import sys
 import random
 import pickle
-#import commcon
+import commcon
 import datetime
 
 
-logging.basicConfig(filename='notebook.logs.notebook',level=logging.DEBUG, filemode='w', \
-                    format='%(asctime)s %(message)s', datefmt='%m/%d %I:%M:%S %p')
+logging.basicConfig(filename='notebook.logs.notebook',level=logging.DEBUG,
+                    filemode='w', format='%(asctime)s %(message)s',
+                    datefmt='%m/%d %I:%M:%S %p')
 
 logging.info('Program started running.')
 '''
-there are three ways: either add 50 to window_edge, or increase pixel_range to 50
-or the third way is to find all possible colors in the canvas and remove
-the target and exception colors from the clickables list
+There are three alternatives: either add 50 to window_edge, or increase
+pixel_range to 50 or the third way is to find all possible colors in the canvas
+and remove the target and exception colors from the clickables list.
 '''
 
-#f=open("error",'a')
-#sys.stderr=f
 
 class Colors(object):
-    
     def _get_color_meanings(self):
         color_meanings = dict()
         for color, value in self.colors.items():
@@ -37,56 +40,56 @@ class Colors(object):
         return color_meanings
 
     def __init__(self):
-        self.colors={'white':(255,255,255),
-                'light grey':(228,228,228),
-                'dark grey':(136,136,136),
-                'black':(34,34,34),
-                'pink':(255,167,209),
-                'red':(229,0,0),
-                'orange':(229,149,0),
-                'brown':(160,106,66),
-                'yellow':(229,217,0),
-                'light green':(148,224,68),
-                'dark green':(2,190,1),
-                'turquoise':(0,211,221),
-                'dark turquoise':(0,131,99),
-                'blue':(0,0,234),
-                'light purple':(207,110,228),
-                'dark purple':(130,0,128)
-                }
-        self.color_meanings=self._get_color_meanings()
-    
+        self.colors = {'white': (255, 255, 255),
+                       'light grey': (228, 228, 228),
+                       'dark grey': (136, 136, 136),
+                       'black': (34, 34, 34),
+                       'pink': (255, 167, 209),
+                       'red': (229, 0, 0),
+                       'orange': (229, 149, 0),
+                       'brown': (160, 106, 66),
+                       'yellow': (229, 217, 0),
+                       'light green': (148, 224, 68),
+                       'dark green': (2, 190, 1),
+                       'turquoise': (0, 211, 221),
+                       'dark turquoise': (0, 131, 99),
+                       'blue': (0, 0, 234),
+                       'light purple': (207, 110, 228),
+                       'dark purple': (130, 0, 128)
+                       }
+        self.color_meanings = self._get_color_meanings()
+
     def build_colors_list(target_color, exception_colors):
-        pixel_range=20
-        target_set=list()
-        print("target_color:",target_color)
-        print("type: ",type(target_color))
-        r=target_color[0]
-        g=target_color[1]
-        b=target_color[2]
-        
-        i=b-pixel_range
-        while i<(b+pixel_range):
-            j=g-pixel_range
-            while j<(g+pixel_range):
-                k=r-pixel_range
-                while k<(r+pixel_range):
-                    target_set.append((k,j,i))
-                    k+=1
-                j+=1
-            i+=1
-        
-        q=0
-        exception_set=list()
-        while q<len(exception_colors):
-            r=exception_colors[q][0]
-            g=exception_colors[q][1]
-            b=exception_colors[q][2]
-            
-            i=b-pixel_range
-            while i<(b+pixel_range):
-                j=g-pixel_range
-                while j<(g+pixel_range):
+        pixel_range = 20
+        target_set = list()
+        print("target_color:", target_color)
+        print("type: ", type(target_color))
+        r = target_color[0]
+        g = target_color[1]
+        b = target_color[2]
+
+        i = b-pixel_range
+        while i < (b+pixel_range):
+            j = g-pixel_range
+            while j < (g+pixel_range):
+                k = r-pixel_range
+                while k < (r+pixel_range):
+                    target_set.append((k, j, i))
+                    k += 1
+                j += 1
+            i += 1
+
+        q = 0
+        exception_set = list()
+        while q < len(exception_colors):
+            r = exception_colors[q][0]
+            g = exception_colors[q][1]
+            b = exception_colors[q][2]
+
+            i = b-pixel_range
+            while i < (b+pixel_range):
+                j = g-pixel_range
+                while j < (g+pixel_range):
                     k=r-pixel_range
                     while k<(r+pixel_range):
                         exception_set.append((k,j,i))
@@ -100,7 +103,7 @@ class Colors(object):
 def pause():
     logging.info("the pause/resume thread loop started running")
     logging.debug("configure database in file: configure")
-    
+
     dbfile=open('configure', 'rb')
     db=pickle.load(dbfile)
     dbfile.close()
@@ -113,7 +116,7 @@ def pause():
     dbfile=open('configure','wb')
     pickle.dump(db,dbfile)
     dbfile.close()
-    
+
     print("Program is running")
     #have two separate [in/out/err) streams for the pause thread's inf loop and the main thread
     while True:
@@ -140,7 +143,7 @@ def pause():
             dbfile.close()
             logging.debug("pause thread: Program status: %s"%db['pause'])
             logging.info("Program paused.")
-       
+
         elif option.lower()=='quit':
             print('Quitting the application..')
             logging.info("pause thread: user selected 'quit'")
@@ -155,7 +158,7 @@ def pause():
             logging.debug("pause thread: program status: %s"%db['pause'])
             logging.info('pause thread: calling sys.exit()')
             sys.exit()
-            
+
         option=input('Enter "resume" to resume or "quit" to quit:')
         if option.lower()=='resume' or option.lower()=='r':
             '''cfile=open('configure.conf','r')
@@ -166,7 +169,7 @@ def pause():
             db=pickle.load(dbfile)
             logging.debug("pause thread: initial pause status: %s"%db['pause'])
             dbfile.close()
-            
+
             '''
             cfile=open('configure.conf','w')
             cfile.write('pause=FALSE\n')
@@ -221,7 +224,7 @@ def print_intro():
     logging.debug('"fig.png" file displayed')
     print('\n==Auto Pixelgrad==')
     print('author:lambsteak\nEmail : free.fries@yandex.com\n\n')
-    
+
     print('Set up your screen: open a web browser window,')
     print('Resize your browser to split the screen vertically (see figure)')
     print('so that you have sufficient screen space to do your work etc')
@@ -238,7 +241,7 @@ def print_intro():
     print('get the coordinates and the RGB color of any pixel on screen')
     print('\nOnce done setting up the browser window, follow these steps:\n')
     logging.debug('print_intro() exited')
-    
+
 
 def get_confs(outer=True):
     #return all the vars to the global
@@ -247,7 +250,7 @@ def get_confs(outer=True):
     logging.debug('get_confs() called')
     print('Take your mouse cursor to the left edge of the browser window')
     print('and  press Enter in the terminal')
-    input('>>>')    
+    input('>>>')
     window_edge=pyautogui.position()[0]
     window_edge+=50
     #cfile.write('window_edge='+str(window_edge)+'\n')
@@ -258,7 +261,7 @@ def get_confs(outer=True):
     top_edge=pyautogui.position()[1]
     #cfile.write('top_edge='+str(top_edge)+'\n')
     logging.debug('top_edge=%d'%top_edge)
-    
+
     print('Now move the mouse cursor to the lower edge above the color palette')
     print('and "no. of people online" widget and press Enter')
     input('>>>')
@@ -267,7 +270,7 @@ def get_confs(outer=True):
     logging.debug('bottom_edge=%d'%bottom_edge)
     #could periodically scan for browser notification on screen
     #but that might be interruptive
-    
+
     freeze_time=int(input('Freeze time after painting pixel (in seconds):'))
     #cfile.write('freeze_time='+str(freeze_time)+'\n')
     logging.debug('freeze time (in seconds) = %d'%freeze_time)
@@ -275,7 +278,7 @@ def get_confs(outer=True):
     print('Enter target color from the available colors.. ')
     print('with row no. and column no., eg "1 4" for black and "2 6" for blue')
     target_color=build_colors(input('>>>'))
-    
+
     print('Enter exception colors (space-separated)')
     print('row# col# row# col# ...row# col#')
     print('Example: "1 6 2 8" for red and purple')
@@ -341,7 +344,7 @@ def get_confs(outer=True):
     #cfile.write('exception_colors='+str(exception_colors)+'\n')
     #cfile.write('\n')
     logging.debug('done taking exception colors')
-    
+
     db = {}
     db['pause']='FALSE'
     db['window_edge']=window_edge
@@ -417,7 +420,7 @@ exception_colors=db['exception_colors']
 logging.debug('(in main thread): values in db dictionary are as follows:')
 for key, value in db.items():
     logging.debug(key+' : '+str(db[key]))
- 
+
 '''
 try:
     dbfile=open('configure','rb')
@@ -483,13 +486,13 @@ else:
         target_color=lines[5].split('=')[1].rstrip()
         exception_colors=lines[6].split('=')[1:]
         exception_colors[-1]=exception_colors[-1].rstrip()
-        
+
     else:
         print_intro()
         window_edge,top_edge,bottom_edge,freeze_time,target_color,exception_colors=get_confs()
         print(type(target_color))
 '''
-    
+
 print('program started..')
 print('Press Enter to pause the program (always do that when any changes could')
 print('occur in the screen area of the browser window')
@@ -500,12 +503,12 @@ interface_thread.start()
 logging.debug('in main thread: pause thread started')
 logging.debug('main thread: sleeping for 0.2 seconds to allow pause thread to set up')
 time.sleep(0.2)
-                  
+
 #file=open('pixeltable','w')
 width,height=pyautogui.size()
 logging.debug('screen size is (%d X %d), 65 subtracted for use',width,height)
 width-=65
-                  
+
 captcha_fail=0
 
 #target_set, exception_set = build_colors_list(target_color, exception_colors)
@@ -539,7 +542,7 @@ while True:
     logging.debug('calling pyautogui.screenshot()')
     scrn=pyautogui.screenshot()
     logging.debug('(in main logic loop): pyautogui.screenshot() returned')
-    
+
     if loop_cycle%per_shot:
         #give name to file based on formatted date and time
         logging.debug('loop_cycle%per_shot gave true, opening file to write screenshot')
@@ -555,7 +558,7 @@ while True:
             sys.exit()
         im_data=scrn.crop((window_edge,0,width,height))
         #file should be inside notebook.logs.screenshot directory
-        logging.debug('writing scrn.crop() object (of type: %s) to file'%str(type(im_data))) 
+        logging.debug('writing scrn.crop() object (of type: %s) to file'%str(type(im_data)))
         im_data.save(fname)
         logging.debug('screenshot written to file')
     #checkig for captcha or error dialogue boxes
@@ -586,7 +589,7 @@ while True:
                 logging.info('Sending captcha to C&C, captcha_fail = %d'%captcha_fail)
                 parted_scrn=scrn.crop((window_edge,0,width,height))
                 #send captcha to other humans to solve it
-                #commcon.send_to_cc(parted_scrn, categ='captcha')       #### 
+                #commcon.send_to_cc(parted_scrn, categ='captcha')       ####
                 #the above function will return after dealing with the captcha
                 #so no need to sleep etc
                 #captcha_sent=True
@@ -619,7 +622,7 @@ while True:
         if clickpoint[0]>window_edge:
             logging.debug('skip ad is in operated screen area, clicking "skip ad" at %s'%str(clickpoint))
             pyautogui.click(clickpoint, duration=0.1)
-                
+
     #click_count=0
     xyloop_count=-1
     xybreak=False
@@ -662,7 +665,7 @@ while True:
                     logging.debug('creating file path for pre-click screenshot')
                     fname=os.path.join(os.getcwd(), 'notebook.logs.screenshots', fname)
                     logging.debug('opening pre-click screenshot file')
-                    
+
                 except Exception as e:
                     logging.info('Error occured in opening pixel_screenshot file')
                     print('Could not open the file at required directory')
@@ -690,7 +693,7 @@ while True:
                 sff.save(fname)
                 logging.debug('screenshot written to file')
                 #pyautogui.hotkey('alt','\t')
-                
+
                 #click_count+=1
                 #if click_count>2:
                     #click_count=0
@@ -736,11 +739,10 @@ while True:
         no_pixels_handler()
     else:
         no_pixels_count=0
-    
+
     if freeze_time>20:
         logging.debug('sleeping for freeze time = %d seconds'%freeze_time-20)
         time.sleep(freeze_time-20)
     else:
         logging.debug('sleeping for freeze time = %d seconds'%freeze_time)
         time.sleep(freeze_time)
-    
