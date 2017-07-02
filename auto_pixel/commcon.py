@@ -6,7 +6,7 @@ def get_cycles_per_shot():
     pass
 
 
-def send_to_cc(file, categ):
+def send_to_cc(*args, **kwargs):
     # upload file to cc_google_drive inside the categ folder
     pass
 
@@ -18,5 +18,5 @@ def _recieve_from_cc(file_with_address):
     pass
 
 
-def send_to_dev():
+def send_to_dev(*args, **kwargs):
     pass
