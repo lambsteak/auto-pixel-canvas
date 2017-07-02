@@ -29,5 +29,6 @@ class Commcon:
         pass
 
 
-    def send_to_dev():
+
+    def send_to_dev(*args, **kwargs):
         pass
