@@ -55,7 +55,7 @@ class Commcon:
             return r
         return r.get(config)
 
-    def set_client_confs(db):
+    def set_client_confs(self, db):
         self.db = db
 
     def listen_to_cc(self):
