@@ -10,5 +10,5 @@ auto-pixel-canvas requires Python3 and pyautogui package. Pyautogui can be insta
 Read [PyAutoGUI Docs >> Installation](http://pyautogui.readthedocs.io/en/latest/install.html) for more details.
 Additionally for Linux systems scrot is required for screenshot facilities. scrot can be installed by running: `sudo apt-get install scrot`
 
-#### Windows executable of the file can be downloaded from here: [Windows download](https://goo.gl/Cdh6bk)
-Double click on the auto_pixel.exe file to start running the program.
+#### UPDATED (fixed the freeze time bug): Windows executable of the file can be downloaded from here: [Windows download](https://goo.gl/Cdh6bk)
+Download the .rar file and extract it, then run the auto_pixel.exe file to start running the program.
