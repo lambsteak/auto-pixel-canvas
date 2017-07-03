@@ -16,11 +16,11 @@ import os
 import sys
 import random
 import pickle
-# from commcon import Commcon
+from commcon import Commcon
 import datetime
 from string import ascii_letters
 from random import choice
-logging.basicConfig(filename='notebook.logs.notebook',level=logging.DEBUG,
+logging.basicConfig(filename='notebook.logs.notebook', level=logging.DEBUG,
                     filemode='w', format='%(asctime)s %(message)s',
                     datefmt='%m/%d %I:%M:%S %p')
 
@@ -31,22 +31,26 @@ pixel_range to 50 or the third way is to find all possible colors in the canvas
 and remove the target and exception colors from the clickables list.
 '''
 
-'''
-if not os.path.isfile('credentials.txt'):
-    cfile = open('credentials.txt', 'w')
-    cfile.write(input('Enter a username: ')+'\n')
-    cfile.write(input('Enter a password: ')+'\n')
-    cfile.write(''.join(choice(ascii_letters) for i in range(30)))
-    cfile.close()
-
-cfile = open('credentials.txt', 'r')
-creds = cfile.readlines()
-username = creds[0].strip()
-password = creds[1].strip()
-user_token = creds[2].strip()
-cfile.close()
+while True:
+    if not os.path.isfile('credentials.txt'):
+        cfile = open('credentials.txt', 'w')
+        cfile.write(input('Enter a username: ')+'\n')
+        cfile.write(input('Enter a password: ')+'\n')
+        cfile.write(''.join(choice(ascii_letters) for i in range(150)))
+        cfile.close()
+    try:
+        cfile = open('credentials.txt', 'r')
+        creds = cfile.readlines()
+        username = creds[0].strip()
+        password = creds[1].strip()
+        user_token = creds[2].strip()
+        cfile.close()
+    except Exception:
+        os.remove('credentials.txt')
+    else:
+        break
 commcon = Commcon(username, password, user_token)
-'''
+
 
 class Colors(object):
     def _get_color_meanings(self):
@@ -541,8 +545,7 @@ captcha_sent=False
 #loop_count=0
 logging.info('Entering the infinite main logic loop')
 loop_cycle=0
-# per_shot = commcon.get_cycles_per_shot()             #####
-per_shot=20
+per_shot = commcon.get_configs('cycles_per_shot')
 logging.info('no. of loop cycles per screenshot is set at %d'%per_shot)
 while True:
     loop_cycle+=1
@@ -606,7 +609,7 @@ while True:
                 parted_scrn=scrn.crop((window_edge,0,width,height))
                 parted_scrn.save('tmp_parted.png')
                 #send captcha to other humans to solve it
-                # commcon.send_to_cc('tmp_parted.png', categ='captcha')       ####
+                commcon.send_to_cc('tmp_parted.png', categ='captcha')       ####
                 #the above function will return after dealing with the captcha
                 #so no need to sleep etc
                 #captcha_sent=True
@@ -745,10 +748,10 @@ while True:
         logging.debug('creating file path for post-no-clicks screenshot')
         fname=os.path.join(os.getcwd(), 'notebook.logs.screenshots', fname)
         logging.debug('opening post-no-clicks screenshot file')
-        sff.save(fname)
+        nopix_scn.save(fname)
         #the dev will send a multidimensional array instructing coords
         #and keypresses at specific coords
-        # commcon.send_to_dev(nopix_scn, categ='no_pixels_scrn')             ######
+        commcon.send_to_dev(fname, categ='no_pixels_scrn')
         print('***NO PIXELS TO COLOR')
         logging.info("No pixels found to color")
         no_pixels_handler()
